@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Player.propTypes = {
-//   video: React.PropTypes.object.isRequired
-// };
 
 // pattern = /^.{2}(\d+H)?(\d+M)?(\d+S)?/
 // 'PT1H54M54S'
@@ -19,20 +16,6 @@ import ReactDOM from 'react-dom';
 // [ 'PT16S', undefined, undefined, '16S', index: 0, input: 'PT16S' ]
 // props.video.contentDetails.duration
 
-//  function Player(props) {
-//   // return null
-//   return (<div>
-//     <div>
-//       <iframe src={`https://www.youtube.com/embed/${props.video.id}?version=3&start=60&end=63&autoplay=1`} allowFullScreen> </iframe>
-//     </div>
-//     <div>
-//       <h3> {props.video.snippet.title} </h3>
-//       <h4> published: {props.video.snippet.publishedAt} </h4>
-//       <h4> views: {props.video.statistics.viewCount}, likes: {props.video.statistics.likeCount}</h4>
-//     </div>
-//   </div>)
-
-// }
 
 class Player extends React.Component {
   constructor(props) {
@@ -49,9 +32,17 @@ class Player extends React.Component {
 
     var durationSec = hr + min + sec
     console.log(durationSec)
-    durationSec = 5
-    return `https://www.youtube.com/embed/${this.props.video.id}?version=3&start=0&end=${durationSec}&autoplay=1`
+    return `https://www.youtube.com/embed/${this.props.video.id}?version=3&start=0&end=${durationSec-2}&autoplay=1`
 
+  }
+
+  // componentDidMount() {
+  //   this.interval = setInterval(() => this, 10000)
+  // }
+
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
 
@@ -69,6 +60,11 @@ class Player extends React.Component {
   }
 
 }
+
+
+Player.propTypes = {
+  video: React.PropTypes.object.isRequired
+};
 
 export default Player
 

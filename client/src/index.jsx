@@ -57,7 +57,7 @@ class App extends React.Component {
         var video = result['items'][0];
         this.setState({video: this.defaultVideo}) //unsetting state, so can set again with the same state to reload the component, else it'll ignore rendering. Note: It is not needed IF not calling with setInterval
         this.setState({video: video}); //reset
-        $("#hello").click();
+        // $("#hello").click();
 
       })
       .fail(function(err){
