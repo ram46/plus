@@ -8,7 +8,8 @@ import Player from './components/Player.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.playVideo = this.playVideo.bind(this)
+    this.playVideo = this.playVideo.bind(this);
+    this.duration = this.duration.bind(this);
 
     this.defaultVideo = {
         snippet: {
@@ -66,16 +67,6 @@ class App extends React.Component {
 
   }
 
-  test() {
-    request.get({
-    url: 'https://www.googleapis.com/youtube/v3/videos?key='+''+'&part=snippet,contentDetails,statistics,status&start=60&id='+videoID
-    }, function(err, res, body){
-      // console.log(body)
-    if (err) console.log(err)
-    cb(body);
-    })
-  }
-
   search(link) {
     $.ajax({
       url: 'http://localhost:1128/video',
@@ -89,10 +80,7 @@ class App extends React.Component {
       var videoID = link.match('v=.+')[0].split('=')[1]
       console.log('######', videoID)
       this.playVideo()(videoID) // first time should run quickly
-      // setInterval(this.playVideo(), 10000, videoID)
-
-      // Now the idea was that based on the duration of the video change the timer in the setInterval
-      // pattern to parse the time is in player file
+      setInterval(this.playVideo(), 10000, videoID)
 
     })
     .fail(function(err){
@@ -100,13 +88,15 @@ class App extends React.Component {
     })
   }
 
-
+  duration(time) {
+    console.log('here I am ', time)
+  }
 
   render () {
     return (<div>
       <h1>YouTubeLoop</h1>
       <Find search={this.search.bind(this)} />
-      <Player video={this.state.video}/>
+      <Player video={this.state.video} duration={this.duration}/>
       <PlayList />
     </div>)
   }
