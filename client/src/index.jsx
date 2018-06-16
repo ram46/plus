@@ -1,107 +1,90 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import Find from './components/Find.jsx';
-import PlayList from './components/PlayList.jsx';
-import Player from './components/Player.jsx';
+
+// import '../styles/styles.css'
+import Basic from './components/Basic.jsx';
+import Factorial from './components/Factorial.jsx';
+import Power from './components/Power.jsx';
+import Log from './components/Log.jsx';
+import SquareRoot from './components/SquareRoot.jsx';
+
+import util from '../../helpers/math.js'
+import parser from '../../helpers/parser.js'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.playVideo = this.playVideo.bind(this);
-    this.getDuration = this.getDuration.bind(this);
+    this.calcBasic = this.calcBasic.bind(this);
+    this.calcFactorial = this.calcFactorial.bind(this);
+    this.calcPower = this.calcPower.bind(this);
+    this.calcLog = this.calcLog.bind(this);
+    this.calcSquareRoot = this.calcSquareRoot.bind(this);
 
-    this.defaultVideo = {
-        snippet: {
-          title: '',
-          description: ''
-        },
-        contentDetails: {
-          duration: 'PT0H00M00S'
-        },
-        statistics: {
-          viewCount: '',
-          likeCount: ''
-        }
-    }
-
-    this.state = {
-      links: [],
-      video: {
-        snippet: {
-          title: '',
-          description: ''
-        },
-        contentDetails: {
-          duration: 'PT0H00M00S'
-        },
-        statistics: {
-          viewCount: '',
-          likeCount: ''
-        }
-      }
-    }
+    this.divStyle = {
+      margin: '40px',
+      border: '4px solid pink'
+    };
+    this.pStyle = {
+      fontSize: '15px',
+      textAlign: 'center'
+    };
   }
 
-
-  playVideo() {
-    var self = this;
-    return function(videoID) {
-      console.log('VIDEO ID', videoID)
-       $.ajax({
-        url: 'http://localhost:1128/video/'+videoID,
-        context: self
-      })
-      .done(function(result){
-        var result = JSON.parse(result)
-        var video = result['items'][0];
-        this.setState({video: this.defaultVideo}) //unsetting state, so can set again with the same state to reload the component, else it'll ignore rendering. Note: It is not needed IF not calling with setInterval
-        this.setState({video: video}); //reset
-        // // $("#hello").click();
-        // this.forceUpdate();
-        // this.getDuration()
-
-      })
-      .fail(function(err){
-        console.log(err);
-      })
-    }
-
+  calcBasic(input, cb) {
+    var parsed = parser.basic(input);
+    var opA = parsed[0];
+    var operator = parsed[1];
+    var opB = parsed[2];
+    var result = util.basic([opA, operator, opB]);
+    cb(result);
   }
 
-  search(link) {
-    $.ajax({
-      url: 'http://localhost:1128/video',
-      type: 'POST',
-      data: JSON.stringify({link:link}),
-      context: this
-    })
-
-    .done(function(){
-      console.log('link is ', link)
-      var videoID = link.match('v=.+')[0].split('=')[1]
-      console.log('######', videoID)
-      this.playVideo()(videoID) // first time should run quickly
-      setInterval(this.playVideo(), 10000, videoID)
-      // this.playVideo()(videoID)
-      // this.playVideo()(videoID)
-
-    })
-    .fail(function(err){
-      console.log(err)
-    })
+  calcFactorial(input, cb) {
+    console.log('in factorial', input);
+    var parsed = parser.factorial(input);
+    var result = util.factorial(parsed);
+    cb(result);
   }
 
-  getDuration(time) {
-    console.log('here I am ', time)
+  calcPower(input, cb) {
+    var n = parser.power(input)[0];
+    var exp = parser.power(input)[1];
+    var result = util.power(n,exp);
+    cb(result);
+  }
+
+  calcLog(input, cb) {
+    var parsed = parser.log(input);
+    var n = parsed[0];
+    var base = parsed[1];
+    var result = util.log(n, base);
+    cb(result);
+  }
+
+  calcSquareRoot(input, cb) {
+    var parsed = parser.squareRoot(input);
+    var result = util.squareRoot(parsed);
+    cb(result);
   }
 
   render () {
     return (<div>
-      <h1>YouTubeLoop</h1>
-      <Find search={this.search.bind(this)} />
-      <Player video={this.state.video} cb={this.getDuration}/>
-      <PlayList />
+      <div style={this.divStyle}>
+        <Basic calcBasic={this.calcBasic}/>
+      </div>
+       <div style={this.divStyle}>
+        <Factorial calcFactorial={this.calcFactorial}/>
+      </div>
+      <div style={this.divStyle}>
+        <Power calcPower={this.calcPower}/>
+      </div>
+      <div style={this.divStyle}>
+        <Log calcLog={this.calcLog}/>
+      </div>
+      <div style={this.divStyle}>
+        <SquareRoot calcSquareRoot={this.calcSquareRoot} />
+      </div>
     </div>)
   }
 }
