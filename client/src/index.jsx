@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.playVideo = this.playVideo.bind(this);
-    this.duration = this.duration.bind(this);
+    this.getDuration = this.getDuration.bind(this);
 
     this.defaultVideo = {
         snippet: {
@@ -17,7 +17,7 @@ class App extends React.Component {
           description: ''
         },
         contentDetails: {
-          duration: ''
+          duration: 'PT0H00M00S'
         },
         statistics: {
           viewCount: '',
@@ -33,7 +33,7 @@ class App extends React.Component {
           description: ''
         },
         contentDetails: {
-          duration: ''
+          duration: 'PT0H00M00S'
         },
         statistics: {
           viewCount: '',
@@ -57,7 +57,9 @@ class App extends React.Component {
         var video = result['items'][0];
         this.setState({video: this.defaultVideo}) //unsetting state, so can set again with the same state to reload the component, else it'll ignore rendering. Note: It is not needed IF not calling with setInterval
         this.setState({video: video}); //reset
-        // $("#hello").click();
+        // // $("#hello").click();
+        // this.forceUpdate();
+        // this.getDuration()
 
       })
       .fail(function(err){
@@ -81,6 +83,8 @@ class App extends React.Component {
       console.log('######', videoID)
       this.playVideo()(videoID) // first time should run quickly
       setInterval(this.playVideo(), 10000, videoID)
+      // this.playVideo()(videoID)
+      // this.playVideo()(videoID)
 
     })
     .fail(function(err){
@@ -88,7 +92,7 @@ class App extends React.Component {
     })
   }
 
-  duration(time) {
+  getDuration(time) {
     console.log('here I am ', time)
   }
 
@@ -96,7 +100,7 @@ class App extends React.Component {
     return (<div>
       <h1>YouTubeLoop</h1>
       <Find search={this.search.bind(this)} />
-      <Player video={this.state.video} duration={this.duration}/>
+      <Player video={this.state.video} cb={this.getDuration}/>
       <PlayList />
     </div>)
   }

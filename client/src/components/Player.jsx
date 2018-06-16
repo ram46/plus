@@ -20,36 +20,50 @@ import ReactDOM from 'react-dom';
 class Player extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  source(duration) {
-    if (!duration) return `https://www.youtube.com/embed/${this.props.video.id}`
-    var pattern = /^.{2}(\d+H)?(\d+M)?(\d+S)?/;
-    var extractedTime = pattern.exec(duration);
-    var hr = extractedTime[1] ? parseInt(extractedTime[1] * 3600) : 0
-    var min = extractedTime[2] ? parseInt(extractedTime[2] * 60) : 0
-    var sec = extractedTime[3] ? parseInt(extractedTime[3]) : 0
-
-    var durationSec = hr + min + sec
-    console.log(durationSec)
-    return `https://www.youtube.com/embed/${this.props.video.id}?version=3&start=0&end=${durationSec-2}&autoplay=1`
-
+    this.constructSource = this.constructSource.bind(this);
+    // this.state = {
+    //   source: 'https://www.youtube.com/embed/${this.props.video.id}',
+    //   videoid: ''
+    // }
   }
 
   // componentDidMount() {
-  //   this.interval = setInterval(() => this, 10000)
+  //   this.setState({videoid: this.props.video.id})
+  //   this.constructSource()
   // }
 
+  // componentDidUpdate() {
+  //   if (this.state.videoid !== this.props.video.id) {
+  //     this.constructSource()
+  //   }
+  // }
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
+  constructSource() {
+    console.log('contentDetails is', this.props.video)
+    var duration = this.props.video.contentDetails.duration;
+    console.log('duration is', duration)
+    // if (!duration) return `https://www.youtube.com/embed/${this.props.video.id}`
+    var pattern = /^.{2}(\d+H)?(\d+M)?(\d+S)?/;
+    console.log('patterm is ', pattern)
+    var extractedTime = pattern.exec(duration);
+    console.log('extractedTime is ' , extractedTime)
+    var hr = extractedTime[1] ? parseInt(extractedTime[1]) * 3600 : 0
+    var min = extractedTime[2] ? parseInt(extractedTime[2]) * 60 : 0
+    var sec = extractedTime[3] ? parseInt(extractedTime[3]) : 0
+
+    console.log(hr, min, sec)
+    var durationSec = hr + min + sec;
+    console.log('the dur in sec is ', durationSec)
+    this.props.cb(durationSec)
+    // this.setState({source: 'https://www.youtube.com/embed/${this.props.video.id}?version=3&start=0&end=${durationSec-2}&autoplay=1'})
+    return `https://www.youtube.com/embed/${this.props.video.id}?version=3&start=0&end=${durationSec-2}&autoplay=1`
   }
 
 
   render() {
     return (<div>
     <div>
-      <iframe src={this.source(this.props.video.contentDetails.duration)} allowFullScreen> </iframe>
+      <iframe src={this.constructSource()} allowFullScreen> </iframe>
     </div>
     <div>
       <h3> {this.props.video.snippet.title} </h3>
@@ -67,12 +81,5 @@ Player.propTypes = {
 };
 
 export default Player
-
-
-
-
-
-
-
 
 
