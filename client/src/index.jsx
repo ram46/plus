@@ -8,6 +8,9 @@ import Factorial from './components/Factorial.jsx';
 import Power from './components/Power.jsx';
 import Log from './components/Log.jsx';
 import SquareRoot from './components/SquareRoot.jsx';
+import Stats from './components/Stats.jsx';
+import User from './components/User.jsx';
+
 
 import util from '../../helpers/math.js'
 import parser from '../../helpers/parser.js'
@@ -20,6 +23,8 @@ class App extends React.Component {
     this.calcPower = this.calcPower.bind(this);
     this.calcLog = this.calcLog.bind(this);
     this.calcSquareRoot = this.calcSquareRoot.bind(this);
+    this.stats = this.stats.bind(this);
+    this.userData = this.userData.bind(this);
 
     this.divStyle = {
       margin: '40px',
@@ -68,8 +73,19 @@ class App extends React.Component {
     cb(result);
   }
 
+  stats(cb) {
+    cb('testing!!')
+  }
+
+  userData(username, cb) {
+    cb(['user data','user data']);
+  }
+
   render () {
     return (<div>
+      <div>
+        <User userData={this.userData}/>
+      </div>
       <div style={this.divStyle}>
         <Basic calcBasic={this.calcBasic}/>
       </div>
@@ -84,6 +100,10 @@ class App extends React.Component {
       </div>
       <div style={this.divStyle}>
         <SquareRoot calcSquareRoot={this.calcSquareRoot} />
+      </div>
+
+      <div>
+        <Stats stats={this.stats} />
       </div>
     </div>)
   }
