@@ -1,10 +1,13 @@
-// var Sequelize = require('sequelize')
-// var config = require('../config.js')
+var Sequelize = require('sequelize')
+var config = require('../config.js')
 
-// var connection = new Sequelize('plus', 'hackreactor', config.TOKEN, {
-//   host: 'localhost',
-//   dialect: 'mysql'
-// })
+var connection = new Sequelize('plus', 'mvp', config.TOKEN, {
+  host: 'localhost',
+  dialect: 'mysql'
+})
 
 
-// module.exports.connection = connection
+connection.authenticate().then(() => { console.log('successful connection to db') }).catch(err => { console.error('failed connection to db', err) })
+
+
+module.exports = connection;

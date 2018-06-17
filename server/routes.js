@@ -1,17 +1,19 @@
 var controller = require('./controllers');
 var router = require('express').Router();
 
-router.get('/recent', controller.history.get);
-router.post('/recent', controller.history.post);
+router.get('/stats', controller.activities.get);
+router.post('/stats', controller.activities.post);
 
-router.options('/recent', controller.options);
+// router.options('/recent', controller.options);
 
+
+router.get('/users', controller.users.get)
+router.post('/users', controller.users.post)
 
 router.get('/test', function(req, res){
   res.end('hello')
 })
 
-router.get('/', controller.home.get);
 
 module.exports = router;
 

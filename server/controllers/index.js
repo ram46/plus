@@ -1,9 +1,5 @@
 const express = require('express');
-
-let app = express();
-
-// app.use(express.static(__dirname + '/../client/dist'));
-
+var db = require('../models');
 
 // var defaultCorsHeaders = {
 //   'access-control-allow-origin': '*',
@@ -13,16 +9,48 @@ let app = express();
 // };
 
 
-// app.options('/*', function(req, res){
-//   res.writeHead(200, defaultCorsHeaders)
-//   res.end()
-// })
+module.exports = {
+
+  activities: {
+    get: function(req, res) {
+      db.Activity.findAll({include: [db.User]})
+      .then(function(activities){
+        res.json(activities);
+      })
+    },
+
+    post: function(req, res) {
+      db.User.findOrCreate({where: {username:req.body.username}})
+      .spread(function(user, created){
+        db.Activity.create({
+          function: user.get('function')
+        }).then(function(message){
+          res.sendStatus(200)
+        })
+      })
+    }
+  },
 
 
-app.get('history', function(){})
+  users: {
+    get: function(req, res) {
+      db.User.findAll()
+      .then(function(users){
+        res.json(users)
+      })
+    },
 
 
+    post: function(req, res) {
+      db.User.findOrCreate({where: {username: req.body.username}})
+      .spread(function(user, created){
+        res.sendStatus(200)
+      })
+
+    }
+  }
 
 
-module.exports = app
+}
+
 
