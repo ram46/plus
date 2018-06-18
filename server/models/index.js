@@ -3,10 +3,13 @@ var Sequelize = require('sequelize')
 
 
 var Activity = connection.define('activity', {
-  function: {
+  mathFunc: {
     type: Sequelize.STRING,
   },
   query: {
+    type: Sequelize.STRING
+  },
+  result: {
     type: Sequelize.STRING
   }
 }, {
@@ -62,16 +65,7 @@ Activity.sync()
 //   include: [ Activity ]
 // })
 
-// Activity.create({
-//   function: 'basic',
-//   user: {
-//     username: 'kilo'
-//   }
-// }, {include: [{
-//   association: Activity.User,
-//   include: [ User.username ]
-//   }]
-// })
+
 
 // User.sync()
 // Activity.sync()
@@ -83,7 +77,8 @@ Activity.sync()
 
 module.exports = {
   User: User,
-  Activity: Activity
+  Activity: Activity,
+  connection: connection
 }
 
 // // TEST

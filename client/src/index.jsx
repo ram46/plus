@@ -14,6 +14,8 @@ import User from './components/User.jsx';
 
 import util from '../../helpers/math.js'
 import parser from '../../helpers/parser.js'
+import db from '../../helpers/db.js'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -37,44 +39,82 @@ class App extends React.Component {
   }
 
   calcBasic(input, cb) {
-    var parsed = parser.basic(input);
-    var opA = parsed[0];
-    var operator = parsed[1];
-    var opB = parsed[2];
-    var result = util.basic([opA, operator, opB]);
-    cb(result);
+
+    db.dbFind($, 'basic', input, function(result){
+      if (result) {
+        cb(result)
+      } else {
+        var parsed = parser.basic(input);
+        var opA = parsed[0];
+        var operator = parsed[1];
+        var opB = parsed[2];
+        var result = util.basic([opA, operator, opB]);
+        db.dbSave($, 'basic', input, result);
+        cb(result);
+      }
+    })
   }
 
   calcFactorial(input, cb) {
-    console.log('in factorial', input);
-    var parsed = parser.factorial(input);
-    var result = util.factorial(parsed);
-    cb(result);
+    db.dbFind($, 'factorial', input, function(result){
+      if (result) {
+        cb(result)
+      } else {
+        var parsed = parser.factorial(input);
+        var result = util.factorial(parsed);
+        db.dbSave($, 'factorial', input, result);
+        cb(result);
+      }
+    })
   }
 
   calcPower(input, cb) {
-    var n = parser.power(input)[0];
-    var exp = parser.power(input)[1];
-    var result = util.power(n,exp);
-    cb(result);
+    db.dbFind($, 'power', input, function(result){
+      if (result) {
+        cb(result)
+      } else {
+        var n = parser.power(input)[0];
+        var exp = parser.power(input)[1];
+        var result = util.power(n,exp);
+        db.dbSave($, 'power', input, result);
+        cb(result);
+      }
+    })
   }
 
   calcLog(input, cb) {
-    var parsed = parser.log(input);
-    var n = parsed[0];
-    var base = parsed[1];
-    var result = util.log(n, base);
-    cb(result);
+    db.dbFind($, 'log', input, function(result){
+      if (result) {
+        cb(result)
+      } else {
+        var parsed = parser.log(input);
+        var n = parsed[0];
+        var base = parsed[1];
+        var result = util.log(n, base);
+        db.dbSave($, 'log', input, result);
+        cb(result);
+      }
+    })
   }
 
   calcSquareRoot(input, cb) {
-    var parsed = parser.squareRoot(input);
-    var result = util.squareRoot(parsed);
-    cb(result);
+    db.dbFind($, 'sqrt', input, function(result){
+      if (result) {
+        cb(result)
+      } else {
+        var parsed = parser.squareRoot(input);
+        var result = util.squareRoot(parsed);
+        db.dbSave($, 'sqrt', input, result);
+        cb(result);
+      }
+    })
   }
 
   stats(cb) {
-    cb('testing!!')
+    db.dbStats($, function(result){
+      console.log("NOW THE STATS ARE ", result)
+      cb(result)
+    })
   }
 
   userData(username, cb) {
