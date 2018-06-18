@@ -23,14 +23,13 @@ class Stats extends React.Component {
 
   handleStats() {
     this.props.stats((result) => {
-      // debugger
       this.setState({topFunc: result})
     })
   }
 
   render() {
     return (<div>
-      <h3> Top Used Functions </h3>
+      <h3> Stats </h3>
       {this.handleStats()}
       <DataList statsData={this.state.topFunc}/>
       </div>)

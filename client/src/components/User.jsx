@@ -1,6 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+function History(props) {
+  if (props.user !== '') {
+    return (<div> {props.username} recent queries </div>)
+  }
+
+}
+
+
 class User extends React.Component {
   constructor(props) {
     super(props);
@@ -23,11 +31,6 @@ class User extends React.Component {
     }
   }
 
-
-  // addDiv() {
-  //   <div> testing {this.state.user} </div>
-  // }
-
   onSubmit() {
     console.log('clicked!!')
 
@@ -43,7 +46,7 @@ class User extends React.Component {
     return (<div>
       <input placeholder='helen' value={this.state.user} onChange={this.onChange} onKeyPress={this.onKeyPress} />
       <button onClick={this.onSubmit} > OK </button>
-      <div> {this.state.user} </div>
+      <History username={this.state.user}/>
       </div>)
   }
 

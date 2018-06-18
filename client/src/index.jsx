@@ -123,6 +123,9 @@ class App extends React.Component {
 
   render () {
     return (<div>
+       <div>
+        <Stats stats={this.stats} />
+      </div>
       <div>
         <User userData={this.userData}/>
       </div>
@@ -140,10 +143,6 @@ class App extends React.Component {
       </div>
       <div style={this.divStyle}>
         <SquareRoot calcSquareRoot={this.calcSquareRoot} />
-      </div>
-
-      <div>
-        <Stats stats={this.stats} />
       </div>
     </div>)
   }
