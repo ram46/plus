@@ -1,17 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+
+function DataList(props) {
+  var statsData = props.statsData;
+  var statItems = statsData.map((stat, index) =>
+    <li key={index}> {stat.mathFunc} {stat.count} </li>
+    );
+  return (
+    <ul> {statItems} </ul>)
+}
+
+
 class Stats extends React.Component {
   constructor(props) {
     super(props);
     this.handleStats = this.handleStats.bind(this);
     this.state = {
-      topFunc: []
+      topFunc: [],
     }
   }
 
   handleStats() {
     this.props.stats((result) => {
+      // debugger
       this.setState({topFunc: result})
     })
   }
@@ -20,7 +32,7 @@ class Stats extends React.Component {
     return (<div>
       <h3> Top Used Functions </h3>
       {this.handleStats()}
-      <div> Stats will appear here {this.state.topFunc} </div>
+      <DataList statsData={this.state.topFunc}/>
       </div>)
   }
 }
