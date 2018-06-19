@@ -9,36 +9,18 @@ var db = require('../models');
 // };
 
 
-
-// var countFactorial
-// var countBasic
-// var countLog
-// var countPower
-// var countSquareRoot
-
-// Activity.count({where: {'function':'factorial'} }).then(function(res) {console.log(res); countFactorial = res})
-// Activity.count({where: {'function':'power'} }).then(function(res) {console.log(res); countPower = res})
-// Activity.count({where: {'function':'log'} }).then(function(res) {console.log(res); countLog = res})
-// Activity.count({where: {'function':'squareroot'} }).then(function(res) {console.log(res); countSquareRoot = res})
-// Activity.count({where: {'function':'basic'} }).then(function(res) {console.log(res); countBasic = res})
-
-
-
 module.exports = {
 
   activities: {
     get: function(req, res) {
-      console.log('the req body is:', req.body)
       db.Activity.findAll({}).then(function(data){res.json(data)})
     },
 
     post: function(req, res) {
-      console.log('NOW the req is', req.body)
       db.Activity.findOne({where: {mathFunc: req.body.mathFunc, query:req.body.query}}).then(function(data){
           if (data === null) {
             res.end(null)
           } else {
-            console.log(data.result)
             res.end(data.result)
           }
           // res.json(data)
@@ -50,7 +32,6 @@ module.exports = {
 
   save: {
     post: function(req, res) {
-      console.log('in the save!!')
       db.Activity.create({
           mathFunc: req.body.mathFunc,
           query: req.body.query,
@@ -67,8 +48,6 @@ module.exports = {
       })
   }
 }
-
-// select mathFunc, COUNT(mathFunc) from activity group by mathFunc;
 
   // create: {
   //   post: function(req, res) {

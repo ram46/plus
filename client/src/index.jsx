@@ -112,7 +112,6 @@ class App extends React.Component {
 
   stats(cb) {
     db.dbStats($, function(result){
-      console.log("NOW THE STATS ARE ", result)
       cb(result)
     })
   }

@@ -27,21 +27,23 @@ var dbSave = function($, mathFunc, query, result) {
     data: {mathFunc: mathFunc, query: query, result: result },
     type: 'json',
   }).done(function(result){
-    console.log('done saving!')
   }).fail(function(err){
     console.log(err);
   })
 }
 
 var dbStats = function($, cb) {
-  $.ajax({
-    url: 'http://localhost:1128/stats'
-  }).done(function(result){
-    console.log(result)
-    cb(result)
-  }).fail(function(err){
-    console.log(err)
-  })
+  setInterval(function(){
+    $.ajax({
+      url: 'http://localhost:1128/stats'
+    }).done(function(result){
+      // console.log(result)
+      cb(result)
+    }).fail(function(err){
+      console.log(err)
+    })
+
+  }, 3000)
 }
 
 

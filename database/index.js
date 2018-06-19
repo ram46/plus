@@ -3,7 +3,8 @@ var config = require('../config.js')
 
 var connection = new Sequelize('plus', 'mvp', config.TOKEN, {
   host: 'localhost',
-  dialect: 'mysql'
+  dialect: 'mysql',
+  logging: false
 })
 
 
