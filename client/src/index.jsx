@@ -40,11 +40,15 @@ class App extends React.Component {
     this.background = {
       backgroundColor: localStorage.getItem('favColor')
     };
+
+    this.state = {
+      updateStats: false
+    }
   }
 
   calcBasic(input, cb) {
 
-    db.dbFind($, 'basic', input, function(result){
+    db.dbFind($, 'basic', input, (result) => {
       if (result) {
         cb(result)
       } else {
@@ -54,26 +58,39 @@ class App extends React.Component {
         var opB = parsed[2];
         var result = util.basic([opA, operator, opB]);
         db.dbSave($, 'basic', input, result);
+
+        // re-render the Stats component
+        this.setState(prevState => ({
+          updateStats: !prevState.updateStats
+        }));
+
+
         cb(result);
       }
     })
   }
 
   calcFactorial(input, cb) {
-    db.dbFind($, 'factorial', input, function(result){
+    db.dbFind($, 'factorial', input, (result) => {
       if (result) {
         cb(result)
       } else {
         var parsed = parser.factorial(input);
         var result = util.factorial(parsed);
         db.dbSave($, 'factorial', input, result);
+
+        // re-render the Stats component
+        this.setState(prevState => ({
+          updateStats: !prevState.updateStats
+        }));
+
         cb(result);
       }
     })
   }
 
   calcPower(input, cb) {
-    db.dbFind($, 'power', input, function(result){
+    db.dbFind($, 'power', input, (result) => {
       if (result) {
         cb(result)
       } else {
@@ -81,13 +98,19 @@ class App extends React.Component {
         var exp = parser.power(input)[1];
         var result = util.power(n,exp);
         db.dbSave($, 'power', input, result);
+
+        // re-render the Stats component
+        this.setState(prevState => ({
+          updateStats: !prevState.updateStats
+        }));
+
         cb(result);
       }
     })
   }
 
   calcLog(input, cb) {
-    db.dbFind($, 'log', input, function(result){
+    db.dbFind($, 'log', input, (result) => {
       if (result) {
         cb(result)
       } else {
@@ -96,19 +119,35 @@ class App extends React.Component {
         var base = parsed[1];
         var result = util.log(n, base);
         db.dbSave($, 'log', input, result);
+
+        // re-render the Stats component
+        this.setState(prevState => ({
+          updateStats: !prevState.updateStats
+        }));
+
         cb(result);
       }
     })
   }
 
   calcSquareRoot(input, cb) {
-    db.dbFind($, 'sqrt', input, function(result){
+
+
+    db.dbFind($, 'sqrt', input, (result) => {
       if (result) {
         cb(result)
       } else {
         var parsed = parser.squareRoot(input);
+        // calculate the result
         var result = util.squareRoot(parsed);
+        // save the result in db in db
         db.dbSave($, 'sqrt', input, result);
+
+        // re-render the Stats component
+        this.setState(prevState => ({
+          updateStats: !prevState.updateStats
+        }));
+        // send the result to component to render
         cb(result);
       }
     })
@@ -127,7 +166,7 @@ class App extends React.Component {
   render () {
     return (<div>
        <div id="top" style={this.background}>
-        <Stats stats={this.stats} />
+        <Stats updateStats={this.state.updateStats} stats={this.stats} />
       </div>
       <div>
         <User userData={this.userData}/>
