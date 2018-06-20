@@ -1,23 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// function UserView(props) {
-//   return (
-//     <button onClick={props.onClick}>
-//       props.user
-//     </button>
-//   );
-// }
 
+function UserGreeting(props) {
+  return <h4> Welcome back!</h4>;
+}
 
-// function AllView(props) {
-//   return (
-//     <button onClick={props.onClick}>
-//       all
-//     </button>
-//   );
-// }
+function AllGreeting(props) {
+  return <h4> Enter username for your user view</h4>;
+}
 
+function Greeting(props) {
+  if (props.userView) {
+    return <UserGreeting username={props.username}/>
+  }
+  return <AllGreeting />
+
+}
 
 
 class User extends React.Component {
@@ -26,12 +25,10 @@ class User extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    // this.handleUserViewClick = this.handleUserViewClick.bind(this)
-    // this.handleAllViewClick = this.handleAllViewClick.bind(this)
 
     this.state = {
       user: 'all',
-      data: [],
+      userView: false,
     }
   }
 
@@ -45,42 +42,18 @@ class User extends React.Component {
     }
   }
 
-  // handleUserViewClick() {
-  //   this.setState({userOnly: true});
-  // }
-
-  // handleAllViewClick() {
-  //   this.setState({userOnly: false});
-  // }
-
   onSubmit() {
-    console.log('clicked!!')
-    //   this.props.userData(this.state.user, (result) => {
-    //     this.state.data = result;
-    //     console.log(this.state.data)
-    //   })
-    if (!localStorage.getItem('favColor')) {
-      var color = prompt("what color to set in your profile? red, yellow, green or blue");
-      localStorage.setItem('favColor',color)
-      document.getElementById("top").style.backgroundColor = localStorage.getItem('favColor');
+    console.log('clicked!')
+    if (this.state.user !== 'all') {
+      this.setState({userView: true})
     }
-
-
   }
 
 
   render() {
 
-    // var userOnly = this.state.userOnly;
-    // var button;
-
-    // if (userOnly) {
-    //   button = <UserView onClick={this.handleUserViewClick} />;
-    // } else {
-    //   button = <AllView onClick={this.handleAllViewClick} />
-    // }
-
     return (<div>
+      <Greeting userView={this.state.userView} username={this.state.user} />
       <input placeholder='all' value={this.state.user} onChange={this.onChange} onKeyPress={this.onKeyPress} />
 
       </div>)

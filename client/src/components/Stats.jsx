@@ -17,49 +17,30 @@ class Stats extends React.Component {
     super(props);
     this.handleStats = this.handleStats.bind(this);
     this.prevState = {factorial:0, power:0, log:0, basic:0, sqrt:0}
-    // this.state = {
-    //   factorial: 0,
-    //   power: 0,
-    //   log: 0,
-    //   sqrt: 0,
-    //   basic: 0
-    // }
 
     this.state = {
       topFunc: [],
-      //rerender: this.props.updateStats
     }
   }
 
   handleStats() {
     this.props.stats((result) => {
-      // var resFactorial;
-      // var resPower;
-      // var resLog;
-      // var resSqrt;
-      // var resBasic;
 
       var self = this;
-      var resBasic = result[0].count
-      var resFactorial = result[1].count
-      var resLog = result[2].count
-      var resPower = result[3].count
-      var resSqrt = result[4].count
 
-      // debugger
-      ////////
-      // for (var i = 0; i < result.length; i++) {
-      //   // debugger
-      //   var resFactorial =  result[i].mathFunc ==='factorial' ? result[i].count: 0;
-      //   var resPower =  result[i].mathFunc === 'power' ? result[i].count: 0;
-      //   var resSqrt =  result[i].mathFunc === 'sqrt' ? result[i].count : 0;
-      //   var resBasic = result[i].mathFunc === 'basic' ? result[i].count : 0;
-      //   var resLog =  result[i].mathFunc === 'log' ? result[i].count: 0;
-      // }
-      ////////
+      for (var i = 0; i < result.length; i++) {
+        if (result[i].mathFunc === 'factorial') { var resFactorial = result[i].count; }
+        if (result[i].mathFunc === 'sqrt') { var resSqrt = result[i].count; }
+        if (result[i].mathFunc === 'power') { var resPower = result[i].count; }
+        if (result[i].mathFunc === 'log') { var resLog = result[i].count; }
+        if (result[i].mathFunc === 'basic') { var resBasic = result[i].count; }
+
+      }
+
       if (resFactorial !== self.prevState.factorial || resPower !== self.prevState.power || resLog !== self.prevState.log || resSqrt !== self.prevState.sqrt || resBasic !== self.prevState.basic) {
 
-
+        // if (JSON.stringify(result) !== JSON.stringify(this.state.topFunc)) {
+        // debugger
         self.setState({topFunc: result})
 
         self.prevState.factorial = resFactorial;
@@ -95,3 +76,9 @@ class Stats extends React.Component {
 
 
 export default Stats
+
+
+
+
+
+
