@@ -59,11 +59,13 @@ class User extends React.Component {
     //     this.state.data = result;
     //     console.log(this.state.data)
     //   })
-    var color = prompt("what color to set in your profile? red, yellow, green or blue");
-    localStorage.setItem('favColor',color)
-    document.getElementById("top").style.backgroundColor = localStorage.getItem('favColor');
-    // document.body.style.backgroundColor = localStorage.getItem('favColor');
-    document.getElementById("top").style.backgroundColor = localStorage.getItem('favColor');
+    if (!localStorage.getItem('favColor')) {
+      var color = prompt("what color to set in your profile? red, yellow, green or blue");
+      localStorage.setItem('favColor',color)
+      document.getElementById("top").style.backgroundColor = localStorage.getItem('favColor');
+    }
+
+
   }
 
 
