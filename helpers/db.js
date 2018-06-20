@@ -33,7 +33,7 @@ var dbSave = function($, mathFunc, query, result) {
 }
 
 var dbStats = function($, cb) {
-  setInterval(function(){
+  //setInterval(function(){
     $.ajax({
       url: 'http://localhost:1128/stats'
     }).done(function(result){
@@ -43,7 +43,7 @@ var dbStats = function($, cb) {
       console.log(err)
     })
 
-  }, 3000)
+  //}, 3000)
 }
 
 

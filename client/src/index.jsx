@@ -36,6 +36,10 @@ class App extends React.Component {
       fontSize: '15px',
       textAlign: 'center'
     };
+
+    this.background = {
+      backgroundColor: localStorage.getItem('favColor')
+    };
   }
 
   calcBasic(input, cb) {
@@ -111,7 +115,7 @@ class App extends React.Component {
   }
 
   stats(cb) {
-    db.dbStats($, function(result){
+    db.dbStats($, (result) => {
       cb(result)
     })
   }
@@ -122,7 +126,7 @@ class App extends React.Component {
 
   render () {
     return (<div>
-       <div>
+       <div id="top" style={this.background}>
         <Stats stats={this.stats} />
       </div>
       <div>
