@@ -29,6 +29,7 @@ class User extends React.Component {
     this.state = {
       user: 'all',
       userView: false,
+
     }
   }
 
@@ -44,10 +45,12 @@ class User extends React.Component {
 
   onSubmit() {
     console.log('clicked!')
+    this.props.userInfo(this.state.user)  // added to send the username!!
     if (this.state.user !== 'all') {
       this.setState({userView: true})
     }
   }
+
 
 
   render() {

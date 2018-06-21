@@ -26,7 +26,7 @@ class App extends React.Component {
     this.calcLog = this.calcLog.bind(this);
     this.calcSquareRoot = this.calcSquareRoot.bind(this);
     this.stats = this.stats.bind(this);
-    this.userData = this.userData.bind(this);
+    // this.userData = this.userData.bind(this);
 
     this.divStyle = {
       margin: '40px',
@@ -42,7 +42,7 @@ class App extends React.Component {
     };
 
     this.state = {
-      updateStats: false
+      updateStats: false,
     }
   }
 
@@ -159,8 +159,14 @@ class App extends React.Component {
     })
   }
 
-  userData(username, cb) {
-    cb(['user data','user data']);
+  // userData(username, cb) {
+  //   cb(['user data','user data']);
+  // }
+
+
+  userInfo(usr) {
+    console.log('heree is my usernameeeee', usr)
+    return usr
   }
 
   render () {
@@ -169,7 +175,7 @@ class App extends React.Component {
         <Stats updateStats={this.state.updateStats} stats={this.stats} />
       </div>
       <div>
-        <User userData={this.userData}/>
+        <User userInfo={this.userInfo.bind(this)}/>
       </div>
       <div style={this.divStyle}>
         <Basic calcBasic={this.calcBasic}/>
@@ -184,7 +190,7 @@ class App extends React.Component {
         <Log calcLog={this.calcLog}/>
       </div>
       <div style={this.divStyle}>
-        <SquareRoot calcSquareRoot={this.calcSquareRoot} />
+        <SquareRoot calcSquareRoot={this.calcSquareRoot}/>
       </div>
     </div>)
   }

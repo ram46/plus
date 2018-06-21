@@ -15,7 +15,6 @@ var Activity = connection.define('activity', {
 }, {
   freezeTableName: true //otherwise sequelize changes the column name to plural itself
 })
-
 var User = connection.define('user', {
   username: {
     type: Sequelize.STRING
@@ -23,7 +22,6 @@ var User = connection.define('user', {
 }, {
   freezeTableName:true
 })
-
 Activity.belongsTo(User);
 User.hasMany(Activity);
 
@@ -40,6 +38,52 @@ User.hasMany(Activity);
 
 User.sync()
 Activity.sync()
+
+
+
+// return Activity.create({
+//   mathFunc:'basic',
+//   query:'2+444',
+//   result:'446',
+//   user: {
+//     username: 'jjjjjj'
+//   }
+// }, {
+//   include: [ User ]
+// })
+
+
+// Activity.create({
+//   mathFunc:'wewewew',
+//   query:'2+444',
+//   result:'446',
+//   user: {
+//     userId: 11
+//   }
+// }, {
+//   include: [ User ]
+// })
+
+//  User.findOrCreate({where:{username:'ab2'}})
+
+//  User.findOrCreate({where: {username:'sdsdsds'}})
+//  .spread((user, created) => {
+//   // console.log(user.get({plain:true}).username )
+//   // var userName = user.get({plain:true}).username
+//   // console.log(userName)
+// })
+//  .then((userName) => Activity.create({
+//     mathFunc:'mathFUNCC'
+//     query: '1121query',
+//     result: '3reeessult',
+//     user: {
+//       username: userName
+//     }
+
+//   }, {
+//     include: [ User ]
+//   })
+// )
 
 // Activity.sync().then(()=>{
 //   return Activity.create({
